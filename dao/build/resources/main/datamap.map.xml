@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map xmlns="http://cayenne.apache.org/schema/3.0/modelMap"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/3.0/modelMap http://cayenne.apache.org/schema/3.0/modelMap.xsd"
+	 project-version="6">
+	<property name="defaultPackage" value="com.name.crow.dao.domain"/>
+	<db-entity name="Role">
+		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true" scale="4"/>
+		<db-attribute name="description" type="VARCHAR" length="100" scale="3"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" scale="1"/>
+		<db-attribute name="rolename" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="65" scale="2"/>
+	</db-entity>
+	<db-entity name="User">
+		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true" scale="4"/>
+		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="65" scale="3"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" scale="1"/>
+		<db-attribute name="username" type="VARCHAR" isMandatory="true" length="65" scale="2"/>
+	</db-entity>
+	<db-entity name="UserRole">
+		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true" scale="4"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" scale="1"/>
+		<db-attribute name="roleId" type="INTEGER" isMandatory="true" scale="2"/>
+		<db-attribute name="userId" type="INTEGER" isMandatory="true" scale="3"/>
+	</db-entity>
+	<obj-entity name="Role" className="com.name.crow.dao.domain.Role" dbEntityName="Role">
+		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+	</obj-entity>
+	<obj-entity name="User" className="com.name.crow.dao.domain.User" dbEntityName="User">
+		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
+		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
+		<obj-attribute name="username" type="java.lang.String" db-attribute-path="username"/>
+	</obj-entity>
+	<obj-entity name="UserRole" className="com.name.crow.dao.domain.UserRole" dbEntityName="UserRole">
+		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
+		<obj-attribute name="roleId" type="java.lang.Integer" db-attribute-path="roleId"/>
+		<obj-attribute name="userId" type="java.lang.Integer" db-attribute-path="userId"/>
+	</obj-entity>
+	<db-relationship name="untitledRel" source="Role" target="UserRole" toMany="false">
+		<db-attribute-pair source="id" target="roleId"/>
+	</db-relationship>
+	<db-relationship name="untitledRel" source="User" target="UserRole" toMany="false">
+		<db-attribute-pair source="id" target="userId"/>
+	</db-relationship>
+	<db-relationship name="roleid" source="UserRole" target="Role" toMany="true">
+		<db-attribute-pair source="roleId" target="id"/>
+	</db-relationship>
+	<db-relationship name="userid" source="UserRole" target="User" toMany="true">
+		<db-attribute-pair source="userId" target="id"/>
+	</db-relationship>
+	<obj-relationship name="roleid" source="UserRole" target="Role" lock="true" deleteRule="Deny" db-relationship-path="roleid"/>
+	<obj-relationship name="userid" source="UserRole" target="User" lock="true" deleteRule="Deny" db-relationship-path="userid"/>
+	<query name="findUser" factory="org.apache.cayenne.map.SelectQueryBuilder" root="obj-entity" root-name="User">
+	</query>
+</data-map>

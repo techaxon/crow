@@ -1,0 +1,21 @@
+{
+  "id": "http://crow.techaxons.com/schema/operation-schema.json",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Operation",
+  "description": "Operation of a crow workflow",
+  "type": "object",
+  "properties": {
+    "opId": {
+      "description": "The unique identifier for a op",
+      "type": "integer"
+    },
+    "opName": {
+      "description": "Name of the op, its a combo of opid and display text",
+      "type": "string"
+    },
+    "opType": {
+      "type": "string",
+      "description": "op type like, condition, connection, execution, evalution and notification"
+    }
+  }
+}

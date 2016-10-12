@@ -1,0 +1,10 @@
+include 'workflow-executor'
+include 'plugin-invoker'
+include 'notification-engine'
+include 'admin'
+include 'license-manager'
+include 'exception-handler'
+include 'message-handler'
+include 'common'
+include 'dao'
+

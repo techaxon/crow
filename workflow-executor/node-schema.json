@@ -1,0 +1,70 @@
+{
+  "id": "http://crow.techaxons.com/schema/node-schema.json",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Node",
+  "description": "Node of the crow workflow",
+  "type": "object",
+  "properties": {
+    "workflowId": {
+      "description": "The unique identifier for a workflow",
+      "type": "integer"
+    },
+    "workflowName": {
+      "description": "Name of the workflow",
+      "type": "string"
+    },
+    "id": {
+      "description": "The unique identifier for a node",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name for a node",
+      "type": "string"
+    },
+    "type": {
+      "description": "Type of the node, this could be start, stop, task, condition and notifier",
+      "type": "string"
+    },
+    "previousNode": {
+      "description": "This referes to the identifier of the previous node in the workflow",
+      "type": "integer"
+    },
+    "nextNode": {
+      "description": "This referes to the identifier of the next node in the workflow",
+      "type": "integer"
+    },
+    "status": {
+      "description": "This referes to the identifier of the previous node in the workflow",
+      "type": "string"
+    },
+    "createdDt": {
+      "description": "Date when node is created - format : yyyy-MM-dd",
+      "type": "string"
+    },
+    "modifiedDt": {
+      "description": "Date when node is modified - format : yyyy-MM-dd",
+      "type": "string"
+    },
+    "operations": {
+      "type": "array",
+      "minItems":1,
+      "items": {
+        "type": "object",
+        "properties" : {
+          "operation" : {"$ref":"http://crow.techaxons.com/schema/operation-schema.json"}
+        },
+        "uniqueItems": true
+      }
+
+    },
+    "axis": {
+      "type": "object",
+      "properties": {
+        "x": {"type": "number"},
+        "y": {"type": "number"}
+      },
+      "required": ["x", "y"]
+    }
+  },
+  "required": ["workflowId","workflowName","id","name","type","axis"]
+}
