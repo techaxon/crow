@@ -1,6 +1,6 @@
-package com.name.crow.dao.domain;
+package com.name.crow.dao;
 
-import com.name.crow.dao.domain.auto._User;
+import com.name.crow.dao.auto._User;
 
 /**
  * Created by pchandramohan on 6/11/15.

@@ -1,4 +1,4 @@
-package com.name.crow.dao.domain.auto;
+package com.name.crow.dao.auto;
 
 import java.util.List;
 
