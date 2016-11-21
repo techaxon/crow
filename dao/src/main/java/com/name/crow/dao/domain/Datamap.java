@@ -1,6 +1,6 @@
 package com.name.crow.dao.domain;
 
-import com.name.crow.dao.domain.auto._Datamap;
+import com.name.crow.dao.auto._Datamap;
 
 public class Datamap extends _Datamap {
 

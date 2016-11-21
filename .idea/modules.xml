@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/admin/admin.iml" filepath="$PROJECT_DIR$/admin/admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crow.iml" filepath="$PROJECT_DIR$/crow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dao/dao.iml" filepath="$PROJECT_DIR$/dao/dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exception-handler/exception-handler.iml" filepath="$PROJECT_DIR$/exception-handler/exception-handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/license-manager/license-manager.iml" filepath="$PROJECT_DIR$/license-manager/license-manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/message-handler/message-handler.iml" filepath="$PROJECT_DIR$/message-handler/message-handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notification-engine/notification-engine.iml" filepath="$PROJECT_DIR$/notification-engine/notification-engine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugin-invoker/plugin-invoker.iml" filepath="$PROJECT_DIR$/plugin-invoker/plugin-invoker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/workflow-executor/workflow-executor.iml" filepath="$PROJECT_DIR$/workflow-executor/workflow-executor.iml" />
+    </modules>
+  </component>
+</project>

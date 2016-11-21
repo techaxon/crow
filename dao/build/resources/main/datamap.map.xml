@@ -3,17 +3,38 @@
 	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 xsi:schemaLocation="http://cayenne.apache.org/schema/3.0/modelMap http://cayenne.apache.org/schema/3.0/modelMap.xsd"
 	 project-version="6">
-	<property name="defaultPackage" value="com.name.crow.dao.domain"/>
+	<property name="defaultPackage" value="com.name.crow.dao"/>
+	<db-entity name="BuildTool">
+		<db-attribute name="createdDate" type="DATE" isMandatory="true"/>
+		<db-attribute name="endpoint" type="VARCHAR" isMandatory="true" length="200"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="modifiedDate" type="DATE" isMandatory="true"/>
+		<db-attribute name="toolName" type="VARCHAR" isMandatory="true" length="70"/>
+	</db-entity>
 	<db-entity name="Role">
 		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true" scale="4"/>
 		<db-attribute name="description" type="VARCHAR" length="100" scale="3"/>
 		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" scale="1"/>
 		<db-attribute name="rolename" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="65" scale="2"/>
 	</db-entity>
-	<db-entity name="User">
+	<db-entity name="Scm">
+		<db-attribute name="createdDate" type="DATE" isMandatory="true"/>
+		<db-attribute name="endpoint" type="VARCHAR" isMandatory="true" length="200"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="modifiedDate" type="DATE" isMandatory="true"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="60"/>
+	</db-entity>
+	<db-entity name="ScmStatus">
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="scmId" type="BIGINT" isMandatory="true"/>
+		<db-attribute name="statusValue" type="VARCHAR" isMandatory="true" length="60"/>
+	</db-entity>
+	<db-entity name="UserAccount">
 		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true" scale="4"/>
 		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="65" scale="3"/>
 		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" scale="1"/>
+		<db-attribute name="isAdmin" type="BOOLEAN" isMandatory="true" scale="6"/>
+		<db-attribute name="password" type="VARCHAR" isMandatory="true" length="65" scale="5"/>
 		<db-attribute name="username" type="VARCHAR" isMandatory="true" length="65" scale="2"/>
 	</db-entity>
 	<db-entity name="UserRole">
@@ -22,34 +43,94 @@
 		<db-attribute name="roleId" type="INTEGER" isMandatory="true" scale="2"/>
 		<db-attribute name="userId" type="INTEGER" isMandatory="true" scale="3"/>
 	</db-entity>
-	<obj-entity name="Role" className="com.name.crow.dao.domain.Role" dbEntityName="Role">
+	<db-entity name="WorkflowScmStatusMapping">
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="scmStatusId" type="BIGINT" isMandatory="true"/>
+		<db-attribute name="workflowStatusId" type="BIGINT" isMandatory="true"/>
+	</db-entity>
+	<db-entity name="WorkflowStatus">
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="statusValue" type="VARCHAR" isMandatory="true" length="60"/>
+	</db-entity>
+	<obj-entity name="BuildTool" className="com.name.crow.dao.BuildTool" dbEntityName="BuildTool">
+		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
+		<obj-attribute name="endpoint" type="java.lang.String" db-attribute-path="endpoint"/>
+		<obj-attribute name="modifiedDate" type="java.util.Date" db-attribute-path="modifiedDate"/>
+		<obj-attribute name="toolName" type="java.lang.String" db-attribute-path="toolName"/>
+	</obj-entity>
+	<obj-entity name="Role" className="com.name.crow.dao.Role" dbEntityName="Role">
 		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
 	</obj-entity>
-	<obj-entity name="User" className="com.name.crow.dao.domain.User" dbEntityName="User">
+	<obj-entity name="Scm" abstract="true" className="com.name.crow.dao.Scm" dbEntityName="Scm">
+		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
+		<obj-attribute name="endpoint" type="java.lang.String" db-attribute-path="endpoint"/>
+		<obj-attribute name="modifiedDate" type="java.util.Date" db-attribute-path="modifiedDate"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+	</obj-entity>
+	<obj-entity name="ScmStatus" className="com.name.crow.dao.ScmStatus" dbEntityName="ScmStatus">
+		<obj-attribute name="id" type="java.lang.Long" db-attribute-path="id"/>
+		<obj-attribute name="statusValue" type="java.lang.String" db-attribute-path="statusValue"/>
+	</obj-entity>
+	<obj-entity name="UserAccount" className="com.name.crow.dao.UserAccount" dbEntityName="UserAccount">
 		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
 		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
+		<obj-attribute name="isAdmin" type="java.lang.Boolean" db-attribute-path="isAdmin"/>
+		<obj-attribute name="password" type="java.lang.String" db-attribute-path="password"/>
 		<obj-attribute name="username" type="java.lang.String" db-attribute-path="username"/>
 	</obj-entity>
-	<obj-entity name="UserRole" className="com.name.crow.dao.domain.UserRole" dbEntityName="UserRole">
+	<obj-entity name="UserRole" className="com.name.crow.dao.UserRole" dbEntityName="UserRole">
 		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
 		<obj-attribute name="roleId" type="java.lang.Integer" db-attribute-path="roleId"/>
 		<obj-attribute name="userId" type="java.lang.Integer" db-attribute-path="userId"/>
 	</obj-entity>
+	<obj-entity name="WorkflowScmStatusMapping" className="com.name.crow.dao.WorkflowScmStatusMapping" dbEntityName="WorkflowScmStatusMapping">
+	</obj-entity>
+	<obj-entity name="WorkflowStatus" className="com.name.crow.dao.WorkflowStatus" dbEntityName="WorkflowStatus">
+		<obj-attribute name="id" type="java.lang.Long" db-attribute-path="id"/>
+		<obj-attribute name="statusValue" type="java.lang.String" db-attribute-path="statusValue"/>
+	</obj-entity>
 	<db-relationship name="untitledRel" source="Role" target="UserRole" toMany="false">
 		<db-attribute-pair source="id" target="roleId"/>
 	</db-relationship>
-	<db-relationship name="untitledRel" source="User" target="UserRole" toMany="false">
+	<db-relationship name="untitledRel" source="Scm" target="ScmStatus" toMany="false">
+		<db-attribute-pair source="id" target="scmId"/>
+	</db-relationship>
+	<db-relationship name="scmId_id" source="ScmStatus" target="Scm" toMany="true">
+		<db-attribute-pair source="scmId" target="id"/>
+	</db-relationship>
+	<db-relationship name="untitledRel" source="ScmStatus" target="WorkflowScmStatusMapping" toMany="false">
+		<db-attribute-pair source="id" target="scmStatusId"/>
+	</db-relationship>
+	<db-relationship name="userRoles" source="UserAccount" target="UserRole" toMany="true">
 		<db-attribute-pair source="id" target="userId"/>
 	</db-relationship>
 	<db-relationship name="roleid" source="UserRole" target="Role" toMany="true">
 		<db-attribute-pair source="roleId" target="id"/>
 	</db-relationship>
-	<db-relationship name="userid" source="UserRole" target="User" toMany="true">
+	<db-relationship name="userid" source="UserRole" target="UserAccount" toMany="true">
 		<db-attribute-pair source="userId" target="id"/>
 	</db-relationship>
+	<db-relationship name="scmStatusId_statusId" source="WorkflowScmStatusMapping" target="ScmStatus" toMany="true">
+		<db-attribute-pair source="scmStatusId" target="id"/>
+	</db-relationship>
+	<db-relationship name="workflpwStatus_workflowStatus" source="WorkflowScmStatusMapping" target="WorkflowStatus" toMany="true">
+		<db-attribute-pair source="workflowStatusId" target="id"/>
+	</db-relationship>
+	<db-relationship name="untitledRel" source="WorkflowStatus" target="WorkflowScmStatusMapping" toMany="false">
+		<db-attribute-pair source="id" target="workflowStatusId"/>
+	</db-relationship>
+	<obj-relationship name="scmIdId" source="ScmStatus" target="Scm" deleteRule="Deny" db-relationship-path="scmId_id"/>
+	<obj-relationship name="userRoles" source="UserAccount" target="Role" deleteRule="Deny" db-relationship-path="userRoles.roleid"/>
 	<obj-relationship name="roleid" source="UserRole" target="Role" lock="true" deleteRule="Deny" db-relationship-path="roleid"/>
-	<obj-relationship name="userid" source="UserRole" target="User" lock="true" deleteRule="Deny" db-relationship-path="userid"/>
-	<query name="findUser" factory="org.apache.cayenne.map.SelectQueryBuilder" root="obj-entity" root-name="User">
+	<obj-relationship name="userid" source="UserRole" target="UserAccount" lock="true" deleteRule="Deny" db-relationship-path="userid"/>
+	<obj-relationship name="scmStatusIdStatusId" source="WorkflowScmStatusMapping" target="ScmStatus" deleteRule="Deny" db-relationship-path="scmStatusId_statusId"/>
+	<obj-relationship name="workflpwStatusWorkflowStatus" source="WorkflowScmStatusMapping" target="WorkflowStatus" deleteRule="Deny" db-relationship-path="workflpwStatus_workflowStatus"/>
+	<query name="findAllUsers" factory="org.apache.cayenne.map.SelectQueryBuilder" root="obj-entity" root-name="UserAccount">
+	</query>
+	<query name="findUser" factory="org.apache.cayenne.map.SelectQueryBuilder" root="obj-entity" root-name="UserAccount">
+		<property name="cayenne.SelectQuery.distinct" value="true"/>
+		<prefetch>userId.roleid</prefetch>
+		<qualifier><![CDATA[username]]></qualifier>
 	</query>
 </data-map>

@@ -7,4 +7,5 @@ include 'exception-handler'
 include 'message-handler'
 include 'common'
 include 'dao'
+include 'web'
 
