@@ -14,8 +14,8 @@
 	<db-entity name="Role">
 		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true" scale="4"/>
 		<db-attribute name="description" type="VARCHAR" length="100" scale="3"/>
-		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" scale="1"/>
-		<db-attribute name="rolename" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="65" scale="2"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true" scale="1"/>
+		<db-attribute name="rolename" type="VARCHAR" isMandatory="true" length="65" scale="2"/>
 	</db-entity>
 	<db-entity name="Scm">
 		<db-attribute name="createdDate" type="DATE" isMandatory="true"/>
@@ -61,6 +61,7 @@
 	<obj-entity name="Role" className="com.name.crow.dao.Role" dbEntityName="Role">
 		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="rolename" type="java.lang.String" db-attribute-path="rolename"/>
 	</obj-entity>
 	<obj-entity name="Scm" abstract="true" className="com.name.crow.dao.Scm" dbEntityName="Scm">
 		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
@@ -81,8 +82,6 @@
 	</obj-entity>
 	<obj-entity name="UserRole" className="com.name.crow.dao.UserRole" dbEntityName="UserRole">
 		<obj-attribute name="createdDate" type="java.util.Date" db-attribute-path="createdDate"/>
-		<obj-attribute name="roleId" type="java.lang.Integer" db-attribute-path="roleId"/>
-		<obj-attribute name="userId" type="java.lang.Integer" db-attribute-path="userId"/>
 	</obj-entity>
 	<obj-entity name="WorkflowScmStatusMapping" className="com.name.crow.dao.WorkflowScmStatusMapping"
 				dbEntityName="WorkflowScmStatusMapping">
@@ -91,9 +90,6 @@
 		<obj-attribute name="id" type="java.lang.Long" db-attribute-path="id"/>
 		<obj-attribute name="statusValue" type="java.lang.String" db-attribute-path="statusValue"/>
 	</obj-entity>
-	<db-relationship name="untitledRel" source="Role" target="UserRole" toMany="false">
-		<db-attribute-pair source="id" target="roleId"/>
-	</db-relationship>
 	<db-relationship name="untitledRel" source="Scm" target="ScmStatus" toMany="false">
 		<db-attribute-pair source="id" target="scmId"/>
 	</db-relationship>
@@ -103,13 +99,10 @@
 	<db-relationship name="untitledRel" source="ScmStatus" target="WorkflowScmStatusMapping" toMany="false">
 		<db-attribute-pair source="id" target="scmStatusId"/>
 	</db-relationship>
-	<db-relationship name="userRoles" source="UserAccount" target="UserRole" toMany="true">
-		<db-attribute-pair source="id" target="userId"/>
-	</db-relationship>
-	<db-relationship name="roleid" source="UserRole" target="Role" toMany="true">
+	<db-relationship name="roleid" source="UserRole" target="Role" toMany="false">
 		<db-attribute-pair source="roleId" target="id"/>
 	</db-relationship>
-	<db-relationship name="userid" source="UserRole" target="UserAccount" toMany="true">
+	<db-relationship name="userid" source="UserRole" target="UserAccount" toMany="false">
 		<db-attribute-pair source="userId" target="id"/>
 	</db-relationship>
 	<db-relationship name="scmStatusId_statusId" source="WorkflowScmStatusMapping" target="ScmStatus" toMany="true">
@@ -123,8 +116,6 @@
 		<db-attribute-pair source="id" target="workflowStatusId"/>
 	</db-relationship>
 	<obj-relationship name="scmIdId" source="ScmStatus" target="Scm" deleteRule="Deny" db-relationship-path="scmId_id"/>
-	<obj-relationship name="userRoles" source="UserAccount" target="Role" deleteRule="Deny"
-					  db-relationship-path="userRoles.roleid"/>
 	<obj-relationship name="roleid" source="UserRole" target="Role" lock="true" deleteRule="Deny" db-relationship-path="roleid"/>
 	<obj-relationship name="userid" source="UserRole" target="UserAccount" lock="true" deleteRule="Deny"
 					  db-relationship-path="userid"/>
@@ -132,13 +123,10 @@
 					  db-relationship-path="scmStatusId_statusId"/>
 	<obj-relationship name="workflpwStatusWorkflowStatus" source="WorkflowScmStatusMapping" target="WorkflowStatus"
 					  deleteRule="Deny" db-relationship-path="workflpwStatus_workflowStatus"/>
+	<query name="findAllRoles" factory="org.apache.cayenne.map.SelectQueryBuilder" root="obj-entity" root-name="Role">
+		<property name="cayenne.SelectQuery.distinct" value="true"/>
+	</query>
 	<query name="findAllUsers" factory="org.apache.cayenne.map.SelectQueryBuilder" root="obj-entity"
 		   root-name="UserAccount">
-	</query>
-	<query name="findUser" factory="org.apache.cayenne.map.SelectQueryBuilder" root="obj-entity"
-		   root-name="UserAccount">
-		<property name="cayenne.SelectQuery.distinct" value="true"/>
-		<prefetch>userId.roleid</prefetch>
-		<qualifier><![CDATA[username]]></qualifier>
 	</query>
 </data-map>

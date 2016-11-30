@@ -41,6 +41,7 @@ dependencies {
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-tiles2', version: '2.1.1.RELEASE'
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-tiles2-spring4', version: '2.1.1.RELEASE'
     compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '1.2.1'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.4.RELEASE'
 
 
     compile('org.springframework.boot:spring-boot-starter-web')
@@ -50,6 +51,7 @@ dependencies {
 
 
     runtime('org.springframework.boot:spring-boot-devtools')
+//    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 }

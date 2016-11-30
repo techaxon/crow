@@ -6,8 +6,10 @@ import com.name.crow.repository.AccountRepository;
 import com.name.crow.web.form.SignupForm;
 import com.name.crow.web.service.UserService;
 import com.name.crow.web.support.AjaxUtils;
+import com.name.crow.web.support.Constants;
 import com.name.crow.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +23,7 @@ import javax.validation.Valid;
 /**
  * Created by pchandramohan on 11/18/16.
  */
+@Controller
 public class SignupController {
 
     private static final String SIGNUP_VIEW_NAME = "signup/signup";
@@ -45,7 +48,8 @@ public class SignupController {
         if (errors.hasErrors()) {
             return SIGNUP_VIEW_NAME;
         }
-        UserAccount account = signupForm.createAccount();
+        UserAccount account = userService.createAccount(signupForm.getEmail(), signupForm.getUsername(), signupForm.getPassword(), Constants.ROLE_USER);
+
         userService.signin(account);
         // see /WEB-INF/i18n/messages.properties and /WEB-INF/views/homeSignedIn.html
         MessageHelper.addSuccessAttribute(ra, "signup.success");

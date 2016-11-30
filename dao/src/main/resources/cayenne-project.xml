@@ -2,16 +2,16 @@
 <domain project-version="6">
 	<map name="datamap"/>
 
-	<node name="crow"
+	<node name="crow-mysql"
 		 factory="org.apache.cayenne.configuration.server.XMLPoolingDataSourceFactory"
-		 schema-update-strategy="org.apache.cayenne.access.dbsync.SkipSchemaUpdateStrategy"
+		  schema-update-strategy="org.apache.cayenne.access.dbsync.CreateIfNoSchemaStrategy"
 		>
 		<map-ref name="datamap"/>
 		<data-source>
-			<driver value="org.apache.derby.jdbc.EmbeddedDriver"/>
-			<url value="jdbc:derby:memory:testdb;create=true"/>
+			<driver value="com.mysql.jdbc.Driver"/>
+			<url value="jdbc:mysql://127.0.0.1:3306/crow?user=root"/>
 			<connectionPool min="1" max="5"/>
-			<login/>
+			<login userName="root"/>
 		</data-source>
 	</node>
 </domain>

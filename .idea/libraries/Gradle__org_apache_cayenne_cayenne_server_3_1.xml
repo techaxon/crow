@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.cayenne:cayenne-server:3.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.cayenne/cayenne-server/3.1/60dc7f060fc0db06c1968af9e294ce1c78b26098/cayenne-server-3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.cayenne/cayenne-server/3.1/f32fa3fdde4e2d629d74b8d7fb5f4af3e0b88c9f/cayenne-server-3.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

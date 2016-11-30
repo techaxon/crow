@@ -1,26 +1,45 @@
 package com.name.crow.web.service;
 
+import com.name.crow.dao.Role;
 import com.name.crow.dao.UserAccount;
 import com.name.crow.repository.AccountRepository;
+import com.name.crow.repository.RoleRepository;
+import com.name.crow.web.support.Constants;
+import org.apache.cayenne.CayenneRuntimeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by pchandramohan on 11/20/16.
  */
+@Service
 public class UserService implements UserDetailsService {
 
     @Autowired
     private AccountRepository accountRepository;
 
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    final List<String> ROLES = Arrays.asList(Constants.ROLE_USER, Constants.ROLE_ADMIN);
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAccount u = accountRepository.findByEmail(username);
+        UserAccount u = accountRepository.findByUsername(username);
         return createUser(u);
     }
 
@@ -29,11 +48,19 @@ public class UserService implements UserDetailsService {
     }
 
     private Authentication authenticate(UserAccount account) {
-        return new UsernamePasswordAuthenticationToken(createUser(account), null, account.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(createUser(account), null, getAuthorities(account.getUsername()));
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(String username) {
+
+        Role r = accountRepository.findUserRoles(username);
+        assert r != null;
+        return Collections.singleton(new SimpleGrantedAuthority(r.getDescription()));
+
     }
 
     private User createUser(UserAccount account) {
-        return new User(account);
+        return new User(account, getAuthorities(account.getUsername()));
     }
 
     public UserAccount createAccount(String email, String username, String password, String role) {
@@ -45,8 +72,8 @@ public class UserService implements UserDetailsService {
         private final UserAccount account;
 
 
-        public User(UserAccount acc) {
-            super(acc.getEmail(), acc.getPassword(), acc.getAuthorities());
+        public User(UserAccount acc, Collection collection) {
+            super(acc.getEmail(), acc.getPassword(), collection);
             this.account = acc;
         }
 
@@ -59,6 +86,16 @@ public class UserService implements UserDetailsService {
         }
 
 
+    }
+
+    public UserAccount setupDefaultUsersAndRoles() {
+        try {
+            ROLES.forEach(role -> roleRepository.save(role, role));
+        } catch (CayenneRuntimeException cex) {
+            cex.getMessage();
+        }
+        UserAccount ua = createAccount("admin@noemail.com", "admin", "admin", Constants.ROLE_ADMIN);
+        return ua;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.name.crow.web.form;
 
-import com.name.crow.dao.UserAccount;
 import com.name.crow.web.service.UserService;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -50,9 +49,6 @@ public class SignupForm {
         this.password = password;
     }
 
-    public UserAccount createAccount() {
-        return userService.createAccount(getEmail(), getUsername(), getPassword(), "ROLE_USER");
-    }
 
 
 }

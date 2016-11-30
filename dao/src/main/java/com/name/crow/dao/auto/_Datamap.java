@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.query.NamedQuery;
 
+import com.name.crow.dao.Role;
 import com.name.crow.dao.UserAccount;
 
 /**
@@ -15,15 +16,15 @@ import com.name.crow.dao.UserAccount;
  */
 public class _Datamap {
 
+    public static final String FIND_ALL_ROLES_QUERYNAME = "findAllRoles";
+
     public static final String FIND_ALL_USERS_QUERYNAME = "findAllUsers";
 
-    public static final String FIND_USER_QUERYNAME = "findUser";
+    public List<Role> performFindAllRoles(ObjectContext context) {
+        return context.performQuery(new NamedQuery("findAllRoles"));
+    }
 
     public List<UserAccount> performFindAllUsers(ObjectContext context) {
         return context.performQuery(new NamedQuery("findAllUsers"));
-    }
-
-    public List<UserAccount> performFindUser(ObjectContext context) {
-        return context.performQuery(new NamedQuery("findUser"));
     }
 }

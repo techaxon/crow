@@ -1,141 +1,67 @@
 package com.name.crow.context;
 
-import org.apache.cayenne.*;
-import org.apache.cayenne.access.DataContext;
-import org.apache.cayenne.graph.GraphDiff;
-import org.apache.cayenne.graph.GraphManager;
-import org.apache.cayenne.map.EntityResolver;
-import org.apache.cayenne.query.Query;
+import org.apache.cayenne.DataChannel;
+import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.access.Transaction;
+import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
+import javax.sql.DataSource;
 
 /**
  * Created by pchandramohan on 11/20/16.
  */
 
 @Component
-public class CrowCayenneContext extends BaseContext {
+public class CrowCayenneContext {
 
+    private final ServerRuntime runtime;
 
-    public DataContext getDataContext() {
-        DataContext context = null;
+    public ObjectContext getContext() {
+        ObjectContext context = null;
         try {
-            context = (DataContext) BaseContext.getThreadObjectContext();
+            context = runtime.getContext();
         } catch (IllegalStateException ex) {
             ex.printStackTrace();
         }
         return context;
     }
 
-    @Override
-    public void commitChanges() {
-
+    public ObjectContext getNestedContext(ObjectContext parent) {
+        ObjectContext context = null;
+        try {
+            context = runtime.getContext((DataChannel) parent);
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+        return context;
     }
 
-    @Override
-    public void commitChangesToParent() {
 
+    public DataSource getDataSource() {
+        DataSource ds = null;
+        try {
+            String dataNode = "crow-mysql";
+            ds = runtime.getDataSource(dataNode);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return ds;
     }
 
-    @Override
-    public void deleteObject(Object object) throws DeleteDenyException {
-
+    public Transaction getNewTransaction() {
+        Transaction tx = null;
+        try {
+            tx = runtime.getDataDomain().createTransaction();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return tx;
     }
 
-    @Override
-    public void deleteObjects(Collection<?> objects) throws DeleteDenyException {
-
+    public CrowCayenneContext() {
+        this.runtime = new ServerRuntime("cayenne-project.xml");
     }
 
-    @Override
-    public Collection<?> deletedObjects() {
-        return null;
-    }
 
-    @Override
-    public EntityResolver getEntityResolver() {
-        return null;
-    }
-
-    @Override
-    public QueryResponse onQuery(ObjectContext originatingContext, Query query) {
-        return null;
-    }
-
-    @Override
-    public GraphManager getGraphManager() {
-        return null;
-    }
-
-    @Override
-    public ObjectContext createChildContext() {
-        return null;
-    }
-
-    @Override
-    public boolean hasChanges() {
-        return false;
-    }
-
-    @Override
-    public Persistent localObject(ObjectId id, Object prototype) {
-        return null;
-    }
-
-    @Override
-    public Collection<?> modifiedObjects() {
-        return null;
-    }
-
-    @Override
-    public <T> T newObject(Class<T> persistentClass) {
-        return null;
-    }
-
-    @Override
-    public void registerNewObject(Object object) {
-
-    }
-
-    @Override
-    public Collection<?> newObjects() {
-        return null;
-    }
-
-    @Override
-    public QueryResponse performGenericQuery(Query query) {
-        return null;
-    }
-
-    @Override
-    public List performQuery(Query query) {
-        return null;
-    }
-
-    @Override
-    public void propertyChanged(Persistent object, String property, Object oldValue, Object newValue) {
-
-    }
-
-    @Override
-    public void rollbackChanges() {
-
-    }
-
-    @Override
-    public void rollbackChangesLocally() {
-
-    }
-
-    @Override
-    public Collection<?> uncommittedObjects() {
-        return null;
-    }
-
-    @Override
-    protected GraphDiff onContextFlush(ObjectContext originatingContext, GraphDiff changes, boolean cascade) {
-        return null;
-    }
 }

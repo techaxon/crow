@@ -11,21 +11,19 @@ import javax.servlet.ServletRegistration;
 /**
  * Created by pchandramohan on 11/13/16.
  */
-public class CrowInitializer implements WebApplicationInitializer {
 
+
+public class CrowInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(CrowConfiguration.class);
         ctx.setServletContext(servletContext);
-
-        ServletRegistration.Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
-
-        servlet.setLoadOnStartup(1);
-        servlet.addMapping("/");
-
-
+        ServletRegistration.Dynamic dynamic = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
+        dynamic.addMapping("/");
+        dynamic.setLoadOnStartup(1);
     }
+
+
 }

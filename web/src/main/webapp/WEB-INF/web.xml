@@ -6,9 +6,5 @@
 
     <!-- This is totally useless and no longer required. Please check CrowInitializer.java instead-->
 
-    <!-- Map all errors to Spring MVC handler method. See CustomErrorController.generalError() -->
-    <error-page>
-        <location>/generalError</location>
-    </error-page>
 
 </web-app>

@@ -6,12 +6,29 @@
     <title>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" media="all"
-          href="css/style.css" th:href="@{css/style.css}"/>
+          href="static/css/bootstrap.min.css" th:href="@{static/css/bootstrap.min.css}"/>
 </head>
 
 <body>
 
-<p th:text="${name}">Welcome to our grocery store!</p>
+<h1>
+    <p th:text="${welcome}"> Welcome to Crow! </p>
+</h1>
+
+<h2>
+    Default Admin user has been created.
+    Please login with credentials :
+</h2>
+<br/>
+Usersame : <label th:text="${username}"> admin </label>
+<br/>
+Password: <label>admin</label>
+<br/>
+
+<div class="text-warning">
+    Please <a href="signin"> click here</a> to login.
+</div>
+
 
 </body>
 

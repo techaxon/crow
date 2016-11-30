@@ -33,6 +33,6 @@ class AccountController {
     @ResponseBody
     public UserAccount accounts(Principal principal) {
         Assert.notNull(principal);
-        return accountRepository.findByEmail(principal.getName());
+        return accountRepository.findByUsername(principal.getName());
     }
 }

@@ -1,52 +1,56 @@
 package com.name.crow;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
-import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
 import org.thymeleaf.extras.tiles2.dialect.TilesDialect;
-import org.thymeleaf.extras.tiles2.spring4.web.configurer.ThymeleafTilesConfigurer;
-import org.thymeleaf.extras.tiles2.spring4.web.view.ThymeleafTilesView;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
-import org.thymeleaf.templateresolver.UrlTemplateResolver;
 
 
 /**
  * Created by pchandramohan on 11/13/16.
  */
 
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.name.crow")
-public class CrowConfiguration extends WebMvcConfigurationSupport {
+public class CrowConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
     private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
-    private static final String VIEWS = "/WEB-INF/templates/";
+    private static final String TEMPLATES = "/WEB-INF/templates/";
 
-    private static final String RESOURCES_HANDLER = "/resources/";
-    private static final String RESOURCES_LOCATION = RESOURCES_HANDLER + "**";
+    private static final String RESOURCES_LOCATION = "/static/";
+    private static final String RESOURCES_HANDLER = RESOURCES_LOCATION + "**";
+
+    private ApplicationContext applicationContext;
 
     @Override
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping requestMappingHandlerMapping = super.requestMappingHandlerMapping();
-        requestMappingHandlerMapping.setUseSuffixPatternMatch(false);
-        requestMappingHandlerMapping.setUseTrailingSlashMatch(false);
-        return requestMappingHandlerMapping;
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("forward:/greeting");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        super.addViewControllers(registry);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(RESOURCES_LOCATION);
     }
 
     @Bean(name = "messageSource")
@@ -60,7 +64,7 @@ public class CrowConfiguration extends WebMvcConfigurationSupport {
     @Bean
     public TemplateResolver templateResolver() {
         TemplateResolver templateResolver = new ServletContextTemplateResolver();
-        templateResolver.setPrefix(VIEWS);
+        templateResolver.setPrefix(TEMPLATES);
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML5");
         templateResolver.setCacheable(false);
@@ -68,15 +72,9 @@ public class CrowConfiguration extends WebMvcConfigurationSupport {
     }
 
     @Bean
-    public UrlTemplateResolver urlTemplateResolver() {
-        return new UrlTemplateResolver();
-    }
-
-    @Bean
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.addTemplateResolver(templateResolver());
-        templateEngine.addTemplateResolver(urlTemplateResolver());
         templateEngine.addDialect(new SpringSecurityDialect());
         templateEngine.addDialect(new TilesDialect());
         templateEngine.addDialect(new LayoutDialect());
@@ -94,46 +92,12 @@ public class CrowConfiguration extends WebMvcConfigurationSupport {
         vr.setCharacterEncoding("UTF-8");
         vr.setOrder(Ordered.HIGHEST_PRECEDENCE);
         // all message/* views will not be handled by this resolver as they are Tiles views
-        vr.setExcludedViewNames(new String[]{"message/*"});
+//        vr.setExcludedViewNames(new String[]{"message/*"});
         return vr;
     }
 
-    /**
-     * Handles Tiles views.
-     */
-    @Bean
-    public ViewResolver tilesViewResolver() {
-        ThymeleafViewResolver vr = new ThymeleafViewResolver();
-        vr.setTemplateEngine(templateEngine());
-        vr.setViewClass(ThymeleafTilesView.class);
-        vr.setCharacterEncoding("UTF-8");
-        vr.setOrder(Ordered.LOWEST_PRECEDENCE);
-        return vr;
-    }
-
-    @Bean
-    public ThymeleafTilesConfigurer tilesConfigurer() {
-        ThymeleafTilesConfigurer ttc = new ThymeleafTilesConfigurer();
-        ttc.setDefinitions(new String[]{"/WEB-INF/templates/message/tiles-defs.xml"});
-        return ttc;
-    }
-
     @Override
-    public Validator getValidator() {
-        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        validator.setValidationMessageSource(messageSource());
-        return validator;
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(RESOURCES_LOCATION);
-    }
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-
-
 }

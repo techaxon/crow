@@ -37,11 +37,9 @@ public abstract class _ScmStatus extends CayenneDataObject {
     public void addToScmIdId(Scm obj) {
         addToManyTarget(SCM_ID_ID_PROPERTY, obj, true);
     }
-
     public void removeFromScmIdId(Scm obj) {
         removeToManyTarget(SCM_ID_ID_PROPERTY, obj, true);
     }
-
     @SuppressWarnings("unchecked")
     public List<Scm> getScmIdId() {
         return (List<Scm>) readProperty(SCM_ID_ID_PROPERTY);
