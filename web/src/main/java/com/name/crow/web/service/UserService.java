@@ -1,7 +1,7 @@
 package com.name.crow.web.service;
 
-import com.name.crow.dao.Role;
 import com.name.crow.dao.UserAccount;
+import com.name.crow.dao.UserRole;
 import com.name.crow.repository.AccountRepository;
 import com.name.crow.repository.RoleRepository;
 import com.name.crow.web.support.Constants;
@@ -17,9 +17,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,10 +53,10 @@ public class UserService implements UserDetailsService {
 
     private Collection<? extends GrantedAuthority> getAuthorities(String username) {
 
-        Role r = accountRepository.findUserRoles(username);
-        assert r != null;
-        return Collections.singleton(new SimpleGrantedAuthority(r.getDescription()));
-
+        List<UserRole> userRoles = accountRepository.findUserRoles(username);
+        List grantedAuthorities = new ArrayList();
+        userRoles.forEach(userRole -> grantedAuthorities.add(new SimpleGrantedAuthority(userRole.getRoleid().getDescription())));
+        return grantedAuthorities;
     }
 
     private User createUser(UserAccount account) {
@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserAccount createAccount(String email, String username, String password, String role) {
-        return accountRepository.save(email, password, username, role);
+        return accountRepository.save(email, username, password, role);
     }
 
     private static class User extends org.springframework.security.core.userdetails.User {

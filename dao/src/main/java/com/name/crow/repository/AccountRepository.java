@@ -42,20 +42,20 @@ public class AccountRepository {
         return userAccounts.stream().findFirst().get();
     }
 
-    public Role findUserRoles(String username) {
+    public List<UserRole> findUserRoles(String username) {
 
         ObjectContext parent = crowCayenneContext.getContext();
 
         Expression expression = Expression.fromString("username = $username");
         StringBuffer ejbql = new StringBuffer();
-        ejbql.append("select r FROM Role r, UserRole ur, UserAccount u WHERE ur.roleId = r.id AND ur.userId = u.id AND u.username = '")
+        ejbql.append("select ur FROM UserRole ur, UserAccount u WHERE  ur.userid = u AND u.username = '")
                 .append(username)
                 .append("'");
 
         EJBQLQuery selectQuery = proto(ejbql.toString());
-        List<Role> roles = parent.performQuery(selectQuery);
+        List<UserRole> roles = parent.performQuery(selectQuery);
 
-        return roles.stream().findFirst().get();
+        return roles;
     }
 
     public List findAllUsers() {

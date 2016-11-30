@@ -18,7 +18,7 @@ public class AuthController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login() {
-        return "account/current";
+        return "home/homeSignedIn";
     }
 
 }
