@@ -6,6 +6,8 @@ import com.name.crow.repository.AccountRepository;
 import com.name.crow.repository.RoleRepository;
 import com.name.crow.web.support.Constants;
 import org.apache.cayenne.CayenneRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,9 +31,14 @@ import java.util.List;
 @Service
 public class UserService implements UserDetailsService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+
+
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -64,7 +72,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserAccount createAccount(String email, String username, String password, String role) {
-        return accountRepository.save(email, username, password, role);
+        return accountRepository.save(email, username, passwordEncoder.encode(password), role);
     }
 
     private static class User extends org.springframework.security.core.userdetails.User {

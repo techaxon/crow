@@ -2,6 +2,8 @@ package com.name.crow.web.controller;
 
 import com.name.crow.dao.UserAccount;
 import com.name.crow.repository.AccountRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -21,6 +23,7 @@ import java.security.Principal;
 @Secured("ROLE_USER")
 class AccountController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
     private AccountRepository accountRepository;
 
     @Autowired

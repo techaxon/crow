@@ -23,13 +23,14 @@
             &nbsp;</div>
     </th:block>
     <p>
-        Welcome to the Spring MVC + Thymeleaf application!
+        You have successfully logged in!
 
-    <div th:include="http://www.thymeleaf.org :: p.notice"/>
+
 
     </p>
-    <div th:replace="fragments/footer :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'">&copy; 2013
-        The Static Templates
+
+    <div th:replace="fragments/footer :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'">
+        &copy; 2013 The Static Templates
     </div>
 </div>
 </body>

@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" media="screen"
-          th:href="@{/resources/css/bootstrap.min.css}"/>
-</head>
+
 <body>
 <!--/*  Multiple fragments may be defined in one file */-->
 <div th:fragment="footer">
-    &copy; 2013 Footer
+    <footer class="app-footer">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="footer-copyright">
+                    Copyright © 2016 TechAxons
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
+
 <div th:fragment="footer-admin">
-    &copy; 2013 Admin Footer
+    <footer class="app-footer">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="footer-copyright">
+                    Copyright © 2016 TechAxons - Admins
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 </body>
 </html>

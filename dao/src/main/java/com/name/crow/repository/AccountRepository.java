@@ -10,6 +10,8 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.EJBQLQuery;
 import org.apache.cayenne.query.SelectQuery;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,18 +19,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Created by pchandramohan on 11/20/16.
  */
 @Repository
 public class AccountRepository {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountRepository.class);
+
     @Autowired
     private CrowCayenneContext crowCayenneContext;
 
 
     public UserAccount findByUsername(String username) {
-
+        LOGGER.debug("1 ********************>  :  " + username);
         ObjectContext context = crowCayenneContext.getContext();
 
         Map param = new HashMap();
@@ -39,6 +44,7 @@ public class AccountRepository {
         SelectQuery selectQuery = proto(UserAccount.class, expression).queryWithParameters(param);
         selectQuery.setDistinct(true);
         List<UserAccount> userAccounts = context.performQuery(selectQuery);
+        LOGGER.debug("2 ********************>  :  " + userAccounts.stream().findFirst().get());
         return userAccounts.stream().findFirst().get();
     }
 

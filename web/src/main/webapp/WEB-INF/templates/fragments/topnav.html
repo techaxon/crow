@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:fragment="topnav">
+
+    <nav class="navbar navbar-default" id="navbar">
+        <div class="container-fluid">
+            <div class="navbar-collapse collapse in">
+                <ul class="nav navbar-nav navbar-mobile">
+                    <li>
+                        <button type="button" class="sidebar-toggle">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </li>
+                    <li class="logo">
+                        <a class="navbar-brand" href="#"><span class="highlight">Crow</span> Dashboard</a>
+                    </li>
+                    <li>
+                        <button type="button" class="navbar-toggle">
+                            <img class="profile-img" src="./assets/images/profile.png"
+                                 th:src="@{/static/images/profile.png}"/>
+                        </button>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="navbar-title">Dashboard</li>
+                    <!--<li class="navbar-search hidden-sm">-->
+                    <!--<input id="search" type="text" placeholder="Search.."/>-->
+                    <!--<button class="btn-search"><i class="fa fa-search"></i></button>-->
+                    <!--</li>-->
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown notification danger">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <div class="icon"><i class="fa fa-bell" aria-hidden="true"></i></div>
+                            <div class="title">System Notifications</div>
+                            <div class="count">10</div>
+                        </a>
+
+                        <div class="dropdown-menu">
+                            <ul>
+                                <li class="dropdown-header">Notification</li>
+                                <li>
+                                    <a href="#">
+                                        <span class="badge badge-danger pull-right">1</span>
+
+                                        <div class="message">
+                                            <div class="content">
+                                                <div class="title">Git Alert</div>
+                                                <div class="description">Connection Failed</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="badge badge-success pull-right">12</span>
+                                        Deploy Stage Success
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="badge badge-warning pull-right">5</span>
+                                        SCM Conflict
+                                    </a>
+                                </li>
+                                <li class="dropdown-footer">
+                                    <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="dropdown profile">
+                        <a href="/html/pages/profile.html" class="dropdown-toggle" data-toggle="dropdown">
+                            <img class="profile-img" src="../static/images/profile-1.png"
+                                 th:src="@{/static/images/profile-1.png}"/>
+
+                            <div class="title">Profile</div>
+                        </a>
+
+                        <div class="dropdown-menu">
+                            <div class="profile-info">
+                                <h4 class="username" th:text="${#authentication.principal.account.username}">Scott
+                                    White</h4>
+                            </div>
+                            <ul class="action">
+                                <li>
+                                    <a href="#">
+                                        Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        Setting
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/logout" th:href="@{/signin?logout}">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</div>
+
+</html>

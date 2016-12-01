@@ -103,7 +103,6 @@
           <element id="library" level="project" name="Gradle: org.apache.cayenne:cayenne-server:3.1" />
           <element id="library" level="project" name="Gradle: commons-lang:commons-lang:2.4" />
           <element id="library" level="project" name="Gradle: org.apache.velocity:velocity:1.7" />
-          <element id="library" level="project" name="Gradle: org.thymeleaf.extras:thymeleaf-extras-springsecurity3:2.1.1.RELEASE" />
           <element id="library" level="project" name="Gradle: org.thymeleaf.extras:thymeleaf-extras-tiles2:2.1.1.RELEASE" />
           <element id="library" level="project" name="Gradle: org.apache.tiles:tiles-core:2.2.2" />
           <element id="library" level="project" name="Gradle: org.apache.tiles:tiles-template:2.2.2" />
@@ -124,6 +123,7 @@
           <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:5.1.40" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:4.3.4.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-tx:4.3.4.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE" />
         </element>
       </element>
       <element id="directory" name="META-INF">

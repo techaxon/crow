@@ -26,7 +26,7 @@ import javax.validation.Valid;
 @Controller
 public class SignupController {
 
-    private static final String SIGNUP_VIEW_NAME = "signup/signup";
+    private static final String SIGNUP_VIEW_NAME = "signup/register";
 
     @Autowired
     private AccountRepository accountRepository;
@@ -53,7 +53,7 @@ public class SignupController {
         userService.signin(account);
         // see /WEB-INF/i18n/messages.properties and /WEB-INF/views/homeSignedIn.html
         MessageHelper.addSuccessAttribute(ra, "signup.success");
-        return "home/homeSignedIn";
+        return "home/home";
     }
 
 }

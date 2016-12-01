@@ -20,7 +20,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">My project</a>
+            <a class="navbar-brand" href="#">Crow Dashboard</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -28,11 +28,18 @@
                 <li th:classappend="${page == 'messages' ? 'active' : ''}"><a href="#"
                                                                               th:href="@{/message}">Messages</a></li>
                 <li th:classappend="${page == 'tasks' ? 'active' : ''}"><a href="#" th:href="@{/task}">Tasks</a></li>
+                <li th:classappend="${page == 'admin' ? 'active' : ''}"><a href="#" th:href="@{/admin}"
+                                                                           th:text="${#authentication.principal.isAdmin()} ? 'Administration' : ' '">Administration</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li th:if="${#authorization.expression('!isAuthenticated()')}"><a href="/signin" th:href="@{/signin}">Sign
-                    in</a></li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}"><a href="/logout" th:href="@{/logout}">Logout</a>
+                <li th:if="${#authorization.expression('!isAuthenticated()')}"><a href="/signin" th:href="@{/signin}">Signin</a>
+                </li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><a href="#"
+                                                                                 th:text="${#authentication.principal.account.username}">User</a>
+                </li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><a href="/logout"
+                                                                                 th:href="@{/signin?logout}">Logout</a>
                 </li>
             </ul>
         </div>
