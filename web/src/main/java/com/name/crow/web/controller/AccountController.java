@@ -38,4 +38,6 @@ class AccountController {
         Assert.notNull(principal);
         return accountRepository.findByUsername(principal.getName());
     }
+
+
 }

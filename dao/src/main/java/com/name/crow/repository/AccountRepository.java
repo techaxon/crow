@@ -33,9 +33,12 @@ public class AccountRepository {
 
 
     public UserAccount findByUsername(String username) {
-        LOGGER.debug("1 ********************>  :  " + username);
         ObjectContext context = crowCayenneContext.getContext();
+        return findByUsername(username, context);
+    }
 
+    public UserAccount findByUsername(String username, ObjectContext context) {
+        LOGGER.debug("1 ********************>  :  " + username);
         Map param = new HashMap();
         param.put("username", username);
 
@@ -49,8 +52,11 @@ public class AccountRepository {
     }
 
     public List<UserRole> findUserRoles(String username) {
-
         ObjectContext parent = crowCayenneContext.getContext();
+        return findUserRoles(username, parent);
+    }
+
+    public List<UserRole> findUserRoles(String username, ObjectContext context) {
 
         Expression expression = Expression.fromString("username = $username");
         StringBuffer ejbql = new StringBuffer();
@@ -59,10 +65,11 @@ public class AccountRepository {
                 .append("'");
 
         EJBQLQuery selectQuery = proto(ejbql.toString());
-        List<UserRole> roles = parent.performQuery(selectQuery);
+        List<UserRole> roles = context.performQuery(selectQuery);
 
         return roles;
     }
+
 
     public List findAllUsers() {
         ObjectContext context = crowCayenneContext.getContext();
@@ -134,6 +141,16 @@ public class AccountRepository {
         List<Role> roles = roleContext.performQuery(sq);
 
         return roles.stream().findFirst().get();
+    }
+
+
+    public int deleteByUsername(String username) {
+        ObjectContext context = crowCayenneContext.getContext();
+        context.deleteObjects(findUserRoles(username, context));
+        context.deleteObject(findByUsername(username, context));
+        List deletedObj = (List) context.deletedObjects();
+        context.commitChanges();
+        return deletedObj != null ? deletedObj.size() : 0;
     }
 
 

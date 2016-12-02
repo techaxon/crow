@@ -116,9 +116,8 @@
 		<db-attribute-pair source="id" target="workflowStatusId"/>
 	</db-relationship>
 	<obj-relationship name="scmIdId" source="ScmStatus" target="Scm" deleteRule="Deny" db-relationship-path="scmId_id"/>
-	<obj-relationship name="roleid" source="UserRole" target="Role" lock="true" deleteRule="Deny" db-relationship-path="roleid"/>
-	<obj-relationship name="userid" source="UserRole" target="UserAccount" lock="true" deleteRule="Deny"
-					  db-relationship-path="userid"/>
+	<obj-relationship name="roleid" source="UserRole" target="Role" lock="true" db-relationship-path="roleid"/>
+	<obj-relationship name="userid" source="UserRole" target="UserAccount" lock="true" db-relationship-path="userid"/>
 	<obj-relationship name="scmStatusIdStatusId" source="WorkflowScmStatusMapping" target="ScmStatus" deleteRule="Deny"
 					  db-relationship-path="scmStatusId_statusId"/>
 	<obj-relationship name="workflpwStatusWorkflowStatus" source="WorkflowScmStatusMapping" target="WorkflowStatus"

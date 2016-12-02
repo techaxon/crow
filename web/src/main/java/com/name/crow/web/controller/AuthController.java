@@ -27,7 +27,7 @@ public class AuthController {
 
     @RequestMapping(value = "authSuccess", method = {RequestMethod.POST, RequestMethod.GET})
     public String index(Principal principal) {
-        return principal != null ? "home/home" : "home/homeSignedIn";
+        return principal != null ? "dashboard/dashboard" : "signin/login";
     }
 
     @RequestMapping(value = "redirect")
