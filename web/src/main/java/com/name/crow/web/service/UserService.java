@@ -1,5 +1,6 @@
 package com.name.crow.web.service;
 
+import com.name.crow.dao.Role;
 import com.name.crow.dao.UserAccount;
 import com.name.crow.dao.UserRole;
 import com.name.crow.repository.AccountRepository;
@@ -104,6 +105,11 @@ public class UserService implements UserDetailsService {
         }
         UserAccount ua = createAccount("admin@noemail.com", "admin", "admin", Constants.ROLE_ADMIN);
         return ua;
+    }
+
+
+    public Role createRole(String roleName, String roleDesc) {
+        return roleRepository.save(roleName, roleDesc);
     }
 
 }

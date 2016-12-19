@@ -77,6 +77,8 @@ public class AccountRepository {
         return context.performQuery(selectQuery);
     }
 
+
+
     private SelectQuery proto(Class clazz, Expression expression) {
         return new SelectQuery(clazz, expression);
     }

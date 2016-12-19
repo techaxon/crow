@@ -7,11 +7,15 @@ $("#submit").click(function () {
     $("#createForm").submit();
 });
 
+$("#submit").click(function () {
+    $("#createRoleForm").submit();
+});
+
 $("#usertable tr, a").click(function (e) {
     var $user = $(this).find("div").attr('id');
     var $reqUrl = '/deleteUser/' + $user;
 
-
+/* TODO: need to change the request method from GET to DELETE */
     $.ajax({
         url: $reqUrl,
         type: 'GET',

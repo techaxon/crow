@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-header">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUserModal">
-                        New User
+                        New Role
                     </button>
 
                     <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog"
@@ -20,23 +20,12 @@
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                             aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Create User</h4>
+                                    <h4 class="modal-title">Create Role</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="post" th:name="createForm" name="createForm" th:id="createForm"
-                                          id="createForm" th:action="@{/createUser}" th:object="${signupForm}"
-                                          th:fragment="signupForm">
-                                        <input type="text" class="form-control" placeholder="Email" id="email"
-                                               th:field="*{email}"/>
-                                        <input type="text" class="form-control" placeholder="Username" id="username"
-                                               th:field="*{username}"/>
-                                        <input type="text" class="form-control" placeholder="Password" id="password"
-                                               th:field="*{password}"/>
-                                        <div>
-                                        <select class="select2" th:field="*{role}" id="role">
-                                            <option th:each="r : ${roles}" th:value="${r.rolename}" th:text="${r.rolename}">ADMIN</option>
-                                        </select>
-                                        </div>
+                                    <form method="post" th:name="createRoleForm" name="createForm" th:id="createRoleForm" id="createRoleForm" th:action="@{/createRole}" th:object="${roleForm}" th:fragment="roleForm">
+                                        <input type="text" class="form-control" placeholder="Role Name" id="roleName" th:field="*{roleName}"/>
+                                        <input type="text" class="form-control" placeholder="Role Description" id="roleDescription"  th:field="*{roleDescription}"/>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -58,30 +47,26 @@
         <div class="col-xs-12">
             <div class="card">
                 <div class="card-header">
-                    Users
+                    Roles
                 </div>
                 <div class="card-body no-padding">
-                    <table id="usertable" class="datatable table table-striped primary" cellspacing="0" width="100%">
+                    <table id="roletable" class="datatable table table-striped primary" cellspacing="0" width="100%">
                         <thead>
                         <tr>
-                            <th>Email</th>
-                            <th>Username</th>
-                            <th>Is Admin</th>
+                            <th>Role </th>
+                            <th>Description</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:if="${users.empty}">
-                            <td colspan="3">No users found.</td>
+                        <tr th:if="${roles.empty}">
+                            <td colspan="3">No roles found.</td>
                         </tr>
-                        <tr th:id="user" th:each="user : ${users}">
-                            <td th:text="${user.email}">Tiger Nixon</td>
-                            <td th:id="username" th:text="${user.username}">tnixon</td>
-                            <td>
-                                <div th:if="${user.isAdmin}"><i class="fa fa-check"></i></div>
-                            </td>
+                        <tr th:id="role" th:each="role : ${roles}">
+                            <td th:text="${role.rolename}">ADMIN</td>
+                            <td th:id="desc" th:text="${role.description}">ADMIN USER</td>
                             <td th:id="trash"><a href="#">
-                                <div th:id="${user.username}"><i class="fa fa-trash"></i></div>
+                                <div th:id="${role.rolename}"><i class="fa fa-trash"></i></div>
                             </a></td>
                         </tr>
                         </tbody>
@@ -90,14 +75,14 @@
             </div>
         </div>
     </div>
-    // data-toggle="modal" data-target="#deleteUserModal"
-    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Delete User</h4>
+                    <h4 class="modal-title">Delete Role</h4>
                 </div>
                 <div class="modal-body">
                     Are you sure?
